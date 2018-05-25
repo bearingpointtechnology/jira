@@ -43,14 +43,20 @@ mv "$TMP_DIR/$JIRA_NAME" "$JIRA_INSTALL_DIR/"
 ln -s "$JIRA_INSTALL_DIR/$JIRA_NAME" "$JIRA_INSTALL_DIR/current"
 
 echo "export JIRA_HOME=$JIRA_HOME" >> /etc/environment
-echo "source /etc/environment" >> /home/jira/.bashrc
 mkdir -p "$JIRA_HOME"
+
+
+echo "JAVA_HOME=$JAVA_HOME" >> "$JIRA_INSTALL_DIR/environment"
+echo "JRE_HOME=$JAVA_HOME/jre" >> "$JIRA_INSTALL_DIR/environment"
+echo "PATH=$PATH:$JAVA_HOME/bin" >> "$JIRA_INSTALL_DIR/environment"
+echo "JIRA_HOME=$JIRA_HOME" >> "$JIRA_INSTALL_DIR/environment"
 
 chown -R jira:jira "$JIRA_INSTALL_DIR"
 chown -R jira:jira "$JIRA_HOME"
 
-wget https://raw.githubusercontent.com/bparsons/atlassian-systemd/master/jira.service -O /etc/systemd/system/jira.service
+wget https://raw.githubusercontent.com/bearingpointtechnology/jira/master/jira.service -O /etc/systemd/system/jira.service
 sed -i -- "s#/opt/atlassian/jira#$JIRA_INSTALL_DIR/current#g" /etc/systemd/system/jira.service
+sed -i -- "s#<envfile>#$JIRA_INSTALL_DIR/environment#g" /etc/systemd/system/jira.service
 
 systemctl daemon-reload
 systemctl enable jira.service
