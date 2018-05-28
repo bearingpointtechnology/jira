@@ -48,7 +48,6 @@ mkdir -p "$JIRA_HOME"
 
 echo "JAVA_HOME=$JAVA_HOME" >> "$JIRA_INSTALL_DIR/environment"
 echo "JRE_HOME=$JAVA_HOME/jre" >> "$JIRA_INSTALL_DIR/environment"
-echo "PATH=$PATH:$JAVA_HOME/bin" >> "$JIRA_INSTALL_DIR/environment"
 echo "JIRA_HOME=$JIRA_HOME" >> "$JIRA_INSTALL_DIR/environment"
 
 chown -R jira:jira "$JIRA_INSTALL_DIR"
