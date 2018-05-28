@@ -16,10 +16,11 @@ JIRA_DOWNLOAD_LINK=https://product-downloads.atlassian.com/software/jira/downloa
 JIRA_INSTALL_DIR="/opt/atlassian/jira"
 JIRA_NAME="atlassian-jira-software-7.9.0-standalone"
 
-JIRA_HOME="/home/jira/jira"
+JIRA_HOME="/home/jira/jira_home"
 
 # Install JAVA
-wget -c --header "Cookie: oraclelicense=accept-securebackup-cookie" "${JAVA_DOWNLOAD_URL}" -O "${TMP_DIR}/java.tar.gz"
+#wget -c --header "Cookie: oraclelicense=accept-securebackup-cookie" "${JAVA_DOWNLOAD_URL}" -O "${TMP_DIR}/java.tar.gz"
+
 tar -xvf "${TMP_DIR}/java.tar.gz" -C "$TMP_DIR/"
 
 mkdir -p "$JAVA_INSTALL_DIR"
@@ -37,7 +38,7 @@ ln -s "$JAVA_HOME/bin/java" "/usr/bin/java"
 # Install JIRA
 useradd jira
 mkdir -p "$JIRA_INSTALL_DIR"
-wget -c "${JIRA_DOWNLOAD_LINK}" -O "${TMP_DIR}/jira.tar.gz"
+#wget -c "${JIRA_DOWNLOAD_LINK}" -O "${TMP_DIR}/jira.tar.gz"
 tar -xvf "${TMP_DIR}/jira.tar.gz" -C "$TMP_DIR/"
 mv "$TMP_DIR/$JIRA_NAME" "$JIRA_INSTALL_DIR/"
 ln -s "$JIRA_INSTALL_DIR/$JIRA_NAME" "$JIRA_INSTALL_DIR/current"
@@ -53,11 +54,11 @@ echo "JIRA_HOME=$JIRA_HOME" >> "$JIRA_INSTALL_DIR/environment"
 chown -R jira:jira "$JIRA_INSTALL_DIR"
 chown -R jira:jira "$JIRA_HOME"
 
-wget https://raw.githubusercontent.com/bearingpointtechnology/jira/master/jira.service -O /etc/systemd/system/jira.service
-sed -i -- "s#/opt/atlassian/jira#$JIRA_INSTALL_DIR/current#g" /etc/systemd/system/jira.service
-sed -i -- "s#<envfile>#$JIRA_INSTALL_DIR/environment#g" /etc/systemd/system/jira.service
+#wget https://raw.githubusercontent.com/bearingpointtechnology/jira/master/jira.service -O /etc/systemd/system/jira.service
+#sed -i -- "s#/opt/atlassian/jira#$JIRA_INSTALL_DIR/current#g" /etc/systemd/system/jira.service
+#sed -i -- "s#<envfile>#$JIRA_INSTALL_DIR/environment#g" /etc/systemd/system/jira.service
+#
+#systemctl daemon-reload
+#systemctl enable jira.service
 
-systemctl daemon-reload
-systemctl enable jira.service
-
-rm -f "$TMP_DIR/jira.tar.gz" "$TMP_DIR/java.tar.gz"
+#rm -f "$TMP_DIR/jira.tar.gz" "$TMP_DIR/java.tar.gz"
